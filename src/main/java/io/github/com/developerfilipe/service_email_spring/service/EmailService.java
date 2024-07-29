@@ -49,7 +49,8 @@ public class EmailService {
 	/**
 	 *@Description - Envia email com template
 	**/
-	public void enviaEmail(EmailDto emailDto) {
+	public String enviaEmail(EmailDto emailDto) {
+		String dadosRetorno; 
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper  helper  = new MimeMessageHelper(message, true); 
@@ -69,10 +70,15 @@ public class EmailService {
 			template =  template.replace("#{tipoVaga}", emailDto.tipoVaga() );
 			
 			helper.setText(template, true);
+			dadosRetorno = template;
 			javaMailSender.send(message);
+			
+			return "Email envaido para: "+emailDto.enviarPara();
 		} catch (Exception e) {
-			System.out.println("Falha ao enviar email: "+e.getMessage());
+			System.out.println("Falha ao enviar email: "+e.getMessage()+e.getStackTrace());
+			return "Falha ao enviar email: "+e.getMessage();
 		}
+		
 	}
 	
 	
