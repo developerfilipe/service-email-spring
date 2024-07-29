@@ -1,0 +1,5 @@
+services:
+  api: 
+    image: email-spring
+    ports:
+      - "8080:8080"
